@@ -29,6 +29,14 @@ const House = sequelize.define('House', {
   city: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id'
+    }
   }
 });
 

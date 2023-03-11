@@ -54,7 +54,7 @@ export const createUserHouse = async (req, res) => {
   try {
     const { id } = req.params;
     const { address, country, city } = req.body;
-    const user = await User.findOne({ where: { id: id } });
+    const user = await User.findOne({ where: { id } });
 
     if (!user) {
       res.sendStatus(404);
@@ -62,7 +62,7 @@ export const createUserHouse = async (req, res) => {
       return;
     }
     console.log('user id ============>: ', user.id);
-    
+
     const house = await House.create({ address, country, city, userId: user.id });
     await user.addHouse(house);
     res.status(201);

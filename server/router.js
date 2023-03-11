@@ -34,7 +34,7 @@ router.get('/users/:id/houses', getUserHouses);
 router.post('/users', createUser);
 
 // here we create a new house for a user
-router.post('/users/:id/houses', createUserHouse);
+router.put('/users/:id/houses', createUserHouse);
 
 // we define the endpoints for the PUT requests
 // here we update a user
