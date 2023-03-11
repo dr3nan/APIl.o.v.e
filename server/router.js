@@ -2,10 +2,10 @@ import express from 'express';
 import {
   getUsers,
   getUser,
-  // getUserHouses,
+  getUserHouses,
   // getUserHousesFiltered,
   createUser,
-  // createUserHouse,
+  createUserHouse,
   // updateUser,
   // updateUserParameter,
   // updateUserHouse,
@@ -25,7 +25,7 @@ router.get('/users', getUsers);
 // the id is dynamic, so we use a placeholder with a colon
 router.get('/users/:id', getUser);
 // here we get all houses from a single user
-// router.get('/users/:id/houses', getUserHouses);
+router.get('/users/:id/houses', getUserHouses);
 // here we could get usere's houses filtered by the following parameters: city, house, country
 // router.get('/users/:id/houses/filter', getUserHousesFiltered);
 
@@ -34,7 +34,7 @@ router.get('/users/:id', getUser);
 router.post('/users', createUser);
 
 // here we create a new house for a user
-// router.post('/users/:id/houses', createUserHouse);
+router.post('/users/:id/houses', createUserHouse);
 
 // we define the endpoints for the PUT requests
 // here we update a user

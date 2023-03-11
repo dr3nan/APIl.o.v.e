@@ -29,8 +29,11 @@ const House = sequelize.define('House', {
   city: {
     type: DataTypes.STRING,
     allowNull: false
-  },
+  }
 });
+
+User.hasMany(House, { foreignKey: 'userId' });
+House.belongsTo(User, { foreignKey: 'userId' });
 
 async function synchronize() {
   await User.sync();
