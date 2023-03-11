@@ -43,11 +43,5 @@ const House = sequelize.define('House', {
 User.hasMany(House, { foreignKey: 'userId' });
 House.belongsTo(User, { foreignKey: 'userId' });
 
-async function synchronize() {
-  await User.sync();
-  await House.sync();
-};
-
-synchronize();
 
 export { User, House };

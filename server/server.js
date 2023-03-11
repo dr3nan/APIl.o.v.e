@@ -2,6 +2,9 @@ import express from 'express';
 // we would use cors if we were using a frontend, not needed for this project
 // import cors from 'cors';
 
+// we import the sequelize instance to be able to connect and syncronise the db
+import sequelize from './models/index.js';
+
 // we import the router from the router.js file where our endpoints are defined
 import router from './router.js';
 
@@ -16,7 +19,16 @@ const app = express();
 app.use(express.json());
 app.use(router);
 
-// here we set up the server to listen on the port we defined
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection established successfully.');
+    await sequelize.sync({ force: true });
+    console.log('All models synchronised successfully.');
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+})();
