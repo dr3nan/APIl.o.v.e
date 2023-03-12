@@ -7,7 +7,7 @@ import {
   createUser,
   createUserHouse,
   updateUser,
-  // updateUserParameter,
+  updateUserParameter,
   // updateUserHouse,
   deleteUser,
   deleteUserHouse,
@@ -42,7 +42,7 @@ router.put('/users/:id', updateUser);
 
 // we define the endpoints for the PATCH requests
 // here we update a user parameter, we use this method to, instead of updating the whole user, we update only one parameter
-// router.patch('/users/:id', updateUserParameter);
+router.patch('/users/:id', updateUserParameter);
 // here we update a specific house for a user
 // router.patch('/users/:id/houses/:houseId', updateUserHouse);
 

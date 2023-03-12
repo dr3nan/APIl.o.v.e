@@ -87,6 +87,35 @@ export const updateUser = async (req, res) => {
   }
 };
 
+export const updateUserParameter = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, surname } = req.body;
+    const user = await User.findOne({
+      where: { id }
+    });
+
+    if (!user) {
+      res.send(`User ${user.name} not found`);
+    };
+
+    if (name) {
+      user.name = name;
+    };
+
+    if (surname) {
+      user.surname = surname;
+    };
+
+    await user.save();
+    res.status(200);
+    res.send(user);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+};
+
 export const createUserHouse = async (req, res) => {
   try {
     const { id } = req.params;
@@ -96,9 +125,7 @@ export const createUserHouse = async (req, res) => {
     });
 
     if (!user) {
-      res.sendStatus(404);
       res.send('User not found');
-      return;
     };
 
     const house = await House.create({
@@ -125,7 +152,7 @@ export const deleteUser = async (req, res) => {
     });
 
     res.status(200);
-    res.send('Deleted');
+    res.send('User Deleted');
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
@@ -144,9 +171,7 @@ export const deleteUserHouse = async (req, res) => {
     });
 
     if(!house) {
-      res.sendStatus(404);
       res.send(`House in user ${user.name} not found`);
-      return;
     };
 
     await user.removeHouse(house);
