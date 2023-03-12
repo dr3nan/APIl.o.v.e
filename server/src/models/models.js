@@ -32,7 +32,7 @@ const House = sequelize.define('House', {
   },
   userId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: User,
       key: 'id'
@@ -40,14 +40,7 @@ const House = sequelize.define('House', {
   }
 });
 
-User.hasMany(House, { foreignKey: 'userId' });
-House.belongsTo(User, { foreignKey: 'userId' });
-
-async function synchronize() {
-  await User.sync();
-  await House.sync();
-};
-
-synchronize();
+User.hasMany(House, { as: 'Houses', foreignKey: 'userId' });
+House.belongsTo(User, { as: 'User', foreignKey: 'userId' });
 
 export { User, House };
