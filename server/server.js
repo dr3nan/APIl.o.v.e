@@ -23,7 +23,7 @@ app.use(router);
   try {
     await sequelize.authenticate();
     console.log('Connection established successfully.');
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     console.log('All models synchronised successfully.');
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);

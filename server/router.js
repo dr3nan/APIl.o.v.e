@@ -6,11 +6,11 @@ import {
   // getUserHousesFiltered,
   createUser,
   createUserHouse,
-  // updateUser,
+  updateUser,
   // updateUserParameter,
   // updateUserHouse,
   deleteUser,
-  // deleteUserHouse,
+  deleteUserHouse,
 } from './controllers/users.js';
 
 const router = express.Router();
@@ -38,10 +38,10 @@ router.put('/users/:id/houses', createUserHouse);
 
 // we define the endpoints for the PUT requests
 // here we update a user
-// router.put('/users/:id', updateUser);
+router.put('/users/:id', updateUser);
 
 // we define the endpoints for the PATCH requests
-// here we update a user parameter, we use this method to instead of updating the whole user, we update only one parameter
+// here we update a user parameter, we use this method to, instead of updating the whole user, we update only one parameter
 // router.patch('/users/:id', updateUserParameter);
 // here we update a specific house for a user
 // router.patch('/users/:id/houses/:houseId', updateUserHouse);
@@ -50,6 +50,6 @@ router.put('/users/:id/houses', createUserHouse);
 // here we delete a user
 router.delete('/users/:id', deleteUser);
 // here we delete a house for a user
-// router.delete('/users/:id/houses/:houseId', deleteUserHouse);
+router.delete('/users/:id/houses/:houseId', deleteUserHouse);
 
 export default router;
