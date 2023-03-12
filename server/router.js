@@ -8,7 +8,7 @@ import {
   createUserHouse,
   updateUser,
   updateUserParameter,
-  // updateUserHouse,
+  updateUserHouseParameter,
   deleteUser,
   deleteUserHouse,
 } from './controllers/users.js';
@@ -44,7 +44,7 @@ router.put('/users/:id', updateUser);
 // here we update a user parameter, we use this method to, instead of updating the whole user, we update only one parameter
 router.patch('/users/:id', updateUserParameter);
 // here we update a specific house for a user
-// router.patch('/users/:id/houses/:houseId', updateUserHouse);
+router.patch('/users/:id/houses/:houseId', updateUserHouseParameter);
 
 // we define the endpoints for the DELETE requests
 // here we delete a user

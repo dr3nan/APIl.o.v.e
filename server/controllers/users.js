@@ -116,6 +116,44 @@ export const updateUserParameter = async (req, res) => {
   }
 };
 
+export const updateUserHouseParameter = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { houseId } = req.params;
+    const { address, country, city } = req.body;
+    const user = await User.findOne({
+      where: { id }
+    });
+
+    const house = await House.findOne({
+      where: { id: houseId }
+    });
+
+    if (!house) {
+      res.send('House not found');
+    };
+
+    if (address) {
+      house.address = address;
+    };
+
+    if (country) {
+      house.country = country;
+    };
+
+    if (city) {
+      house.city = city;
+    };
+
+    await house.save();
+    res.status(200);
+    res.send(house);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+};
+
 export const createUserHouse = async (req, res) => {
   try {
     const { id } = req.params;
