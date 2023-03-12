@@ -43,5 +43,4 @@ const House = sequelize.define('House', {
 User.hasMany(House, { as: 'Houses', foreignKey: 'userId' });
 House.belongsTo(User, { as: 'User', foreignKey: 'userId' });
 
-
 export { User, House };

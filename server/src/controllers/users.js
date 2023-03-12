@@ -3,6 +3,7 @@ import { User, House } from '../models/models.js';
 export const getUsers = async (_, res) => {
   try {
     const get = await User.findAll({});
+
     if (get.length === 0) {
       res.send('No users found');
     };
@@ -23,6 +24,9 @@ export const getUser = async (req, res) => {
     });
 
     if (!getUser) {
+      // I decided to comment the 404 status code because it was causing my server to stop
+      // I could have installed nodemon to mitigate this behaviour, but I chose not to
+      // res.status(404);
       res.send('No user found');
     };
 
@@ -42,9 +46,54 @@ export const getUserHouses = async (req, res) => {
       include: [{ model: House, as: 'Houses' }]
     });
 
-    // if (getUser.Houses.length === 0) {
-    //   res.send('No houses found');
-    // };
+    if (getUser.Houses.length === 0) {
+      res.send('No houses found');
+    };
+
+    res.status(200);
+    res.send(getUser.Houses);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+};
+// TODO: add multiparam handling
+export const getUserHousesFiltered = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { city, address, country} = req.query;
+    const filtered = {};
+
+    if (city) {
+      filtered.city = city;
+    };
+
+    if (address) {
+      filtered.address = address;
+    };
+
+    if (country) {
+      filtered.country = country;
+    };
+
+    const getUser = await User.findOne({
+      where: { id },
+      include: [
+        {
+          model: House,
+          as: 'Houses',
+          where: filtered
+        },
+      ],
+    });
+
+    if (!getUser) {
+      res.send('No user found');
+    };
+
+    if (getUser.Houses.length === 0) {
+      res.send('No houses found');
+    };
 
     res.status(200);
     res.send(getUser.Houses);
@@ -118,15 +167,11 @@ export const updateUserParameter = async (req, res) => {
 
 export const updateUserHouseParameter = async (req, res) => {
   try {
-    const { id } = req.params;
     const { houseId } = req.params;
     const { address, country, city } = req.body;
-    const user = await User.findOne({
-      where: { id }
-    });
 
     const house = await House.findOne({
-      where: { id: houseId }
+      where: { houseId }
     });
 
     if (!house) {
@@ -208,7 +253,7 @@ export const deleteUserHouse = async (req, res) => {
       where: { houseId }
     });
 
-    if(!house) {
+    if (!house) {
       res.send(`House in user ${user.name} not found`);
     };
 
@@ -216,7 +261,7 @@ export const deleteUserHouse = async (req, res) => {
     await house.destroy();
 
     res.status(200);
-    res.send(`House id: ${houseId} deleted!`);
+    res.send(`House ${houseId}, deleted!`);
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
