@@ -230,6 +230,20 @@ export const createUserHouse = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
+    const user = await User.findOne({
+      where: { id },
+      include: [{ model: House, as: 'Houses' }]
+    });
+
+    if (!user) {
+      res.send('User not found');
+    };
+
+    if (user.Houses.length > 0) {
+      res.status(400);
+      res.send('User has houses, delete them first');
+    };
+    
     await User.destroy({
       where: { id }
     });
